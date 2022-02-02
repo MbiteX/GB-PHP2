@@ -15,18 +15,17 @@ try {
   $twig = new Twig_Environment($loader);
 
   // подгружаем шаблон
-  $template = $twig->loadTemplate('v_index.html');
+  $template = $twig->loadTemplate('v_photo.html');
 
-  // Получаем список фотографий 
-  $photos_in_dir = array_slice(scandir(PHOTO_PATH), 2);
+  $photo = stripcslashes($_GET['photo']);
+  if (!file_exists(PHOTO_PATH . '/' . $photo)) throw new Exception('Фото отсутсвует');
 
   // передаём в шаблон переменные и значения
   // выводим сформированное содержание
-  //echo print_r($photos_in_dir);
   echo $template->render(array(
-    'title' => 'Список фото',
-    'path_to_photo_small' => PHOTO_SMALL_PATH,
-    'photos' => $photos_in_dir
+    'title' => "Фото $photo",
+    'path_to_photo' => PHOTO_PATH,
+    'photo' => $photo
   ));
 } catch (Exception $e) {
   die('ERROR: ' . $e->getMessage());

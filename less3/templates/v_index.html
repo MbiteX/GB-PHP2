@@ -1,0 +1,39 @@
+<html>
+
+<head>
+  <title>{{title}}</title>
+</head>
+
+<body>
+  <header>
+    <h2 style="text-align: center; color:red">{{title}}</h2>
+  </header>
+  <div style="
+  width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+  ">
+    {% for photo in photos %}
+    <div style="
+    margin: 10px;
+"><A Href="photo.php?photo={{photo}}"><img src="{{path_to_photo_small}}/{{photo}}"></A>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- <br> -->
+  <hr>
+  <div style="
+  width: 350px;
+    margin: 0 auto;">
+    <form action="models/photo.php" method="POST" enctype="multipart/form-data">
+      <span> <b>Добавить файл: </b> </span>
+      <input type="file" name="userfile">
+      <button type="submit" name="send">ЗАГРУЗИТЬ</button> <br>
+      <!-- <span><?= $message ?></span> -->
+    </form>
+  </div>
+</body>
+
+</html>
