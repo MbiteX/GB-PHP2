@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // if (window.jQuery) {
+        //     console.log('jQuery подключен к странице');
+        //     var verJquery = jQuery.fn.jquery;
+        //     // выведем версию jQuery в консоль
+        //     console.log(verJquery);
+        // } else {
+        //     console.log('jQuery не подключен к странице');
+        // }
+
+        $(function () {
+            $('#jsShowMore').click(function (e) {
+                e.preventDefault();
+                let goods = $('.catalog-list .catalog-item').last().attr('data-id');
+                console.log(goods);
+                $.ajax({
+                    type: 'POST',
+                    url: "goods.php",
+                    data: { GOODS: goods },
+                    success: function (data) {
+                        // console.log(data);
+                        let result = JSON.parse(data);
+                        $('.catalog-list').append(result.html);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <header>
+        <h1 style="text-align: center;">{{title}}</h1>
+    </header>
+
+    <main class="catalog-list" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+        {% for photo in photos %}
+        <div class="catalog-item" data-id="{{photo.id}}"
+            style="margin: 10px; border: 1px solid black; width: min-content;">
+            <img src="img/{{photo.img}}" width="320px" alt="{{photo.id}}">
+            <h2>{{photo.name}}</h2>
+            <p>{{photo.description}}</p>
+            <h3>$ {{photo.price}}</h3>
+        </div>
+        {% endfor %}
+    </main>
+
+    <a id="jsShowMore" href="" data-goods=9>Показать еще</a>
+
+    <footer></footer>
+
+</body>
+
+</html>
